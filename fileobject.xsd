@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2011 (http://www.altova.com) by Gaya (NIST) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:dfxml="http://www.forensicswiki.org/wiki/Digital_Forensics_XML_Schema" targetNamespace="http://www.forensicswiki.org/wiki/Digital_Forensics_XML_Schema" elementFormDefault="qualified">
+	<!-- -->
+	<!-- History - Version 1.0 January 30, 2012                                                                         -->
+	<!--                                                                                                                                   -->
+	<!-- DFXML - top level element                                                                                         -->
+	<!--                                                                                                                                   -->
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+	<xs:element name="DFXML">
+		<xs:annotation>
+			<xs:documentation>
+              This is the top level element for documents that use this schema.
+         </xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:annotation>
+				<xs:documentation>A general container to accomodate different metadata entries.</xs:documentation>
+			</xs:annotation>
+			<xs:sequence>
+				<xs:element name="metadata-entry" type="dfxml:metadataType" minOccurs="1"/>
+			</xs:sequence>
+			<xs:attribute name="catalogDesignDate" type="xs:date" use="required"/>
+			<xs:attribute name="version" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="metadataType">
+		<xs:sequence>
+			<xs:element ref="dfxml:creator" minOccurs="1"/>
+			<xs:element ref="dfxml:source" minOccurs="1"/>
+			<xs:element ref="dfxml:volume" minOccurs="1"/>
+			<xs:element ref="dfxml:fileObject" minOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="creator">
+		<xs:annotation>
+			<xs:documentation>
+              This is the program that created the XML file.
+          </xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="program" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>The actual name of the program.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="version" type="xs:float">
+					<xs:annotation>
+						<xs:documentation>The version of the creating file.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="os" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>The operating system in which the file was created.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="build_environment" type="dfxml:build_environment"/>
+				<xs:element name="execution_environment" type="dfxml:execution_environment"/>
+				<xs:element ref="dfxml:library" maxOccurs="unbounded"/>
+				<xs:element name="command_line" type="xs:string"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="build_environment">
+		<xs:annotation>
+			<xs:documentation>This element describes how the environment was set.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="compiler" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>The compiler if (if any) used to compile the program.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="compilation_date" type="xs:dateTime">
+				<xs:annotation>
+					<xs:documentation>The date the program was compiled.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="dfxml:library" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>A reference to any libraries used to compile the program.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="execution_environment">
+		<xs:annotation>
+			<xs:documentation>This is a description of the execution environment.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="os_sysname" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>os_sysname is the system name (reported by uname -s).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="os_release" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>os_release is the release (reported by uname -r).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="os_version" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>os_version is the os version (reported by uname -v).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="host" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>The name of the host machine in which the program was executed.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="arch" type="xs:string"/>
+			<xs:element name="command_line" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>The command line used to program.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="uid" type="xs:nonNegativeInteger"/>
+			<xs:element name="username" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>The username under which the program was executed.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="start_date" type="xs:dateTime">
+				<xs:annotation>
+					<xs:documentation>The date and time that the program was executed.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="source">
+		<xs:annotation>
+			<xs:documentation>This is where the file actually resides.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="imagefile" type="xs:string"/>
+				<xs:element name="acquisition_date" type="xs:dateTime"/>
+				<xs:element name="sectorsize" type="xs:positiveInteger"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="library">
+		<xs:complexType>
+			<xs:attribute name="name" type="xs:string"/>
+			<xs:attribute name="version" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<!--  The code below is the "filehasset" schema posted in the dfxml forensics wiki.-->
+	<xs:complexType name="msregistry">
+		<xs:sequence>
+			<xs:element name="msregistry">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="key">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="mtime" type="dfxml:time"/>
+									<xs:element name="value" type="dfxml:value" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="value">
+		<xs:annotation>
+			<xs:documentation>A general structure to represent the attribute of the "value" element.</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="name" type="xs:string"/>
+		<xs:attribute name="type" type="xs:string"/>
+		<xs:attribute name="value" type="xs:positiveInteger"/>
+	</xs:complexType>
+	<xs:complexType name="time">
+		<xs:annotation>
+			<xs:documentation>A general structure to represent a xs:dateTime with the "prec" attribute.</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:dateTime">
+				<xs:attribute name="prec" type="xs:nonNegativeInteger"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:element name="fileObject">
+		<xs:annotation>
+			<xs:documentation>fileobject is the key file element for the standard digital forensic XML. A sequence
+			  of bytes with associated metadata.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="id" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>This is a unique identifier for the file.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="filesize" type="xs:positiveInteger" minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>This is the size of the file in bytes.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="partition" type="xs:nonNegativeInteger" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>This is the partition where the file is at.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="alloc" type="xs:nonNegativeInteger" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>This is the SleuthKit ALLOC flag. I believe that it means that the file is allocated.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="used" type="xs:nonNegativeInteger" minOccurs="0"/>
+				<xs:element name="inode" type="xs:nonNegativeInteger" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>This is the number (st_ino from the stat(2) system call).</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="uid" type="xs:nonNegativeInteger" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Numerical User id.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="type" type="xs:nonNegativeInteger" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>is the NTFS "Attribute Type" reported by SleuthKit.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="mode" type="xs:nonNegativeInteger" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>File opening mode.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="nlink" type="xs:nonNegativeInteger" minOccurs="0"/>
+				<xs:element name="gid" type="xs:nonNegativeInteger" minOccurs="0"/>
+				<xs:element name="mtime" type="dfxml:time" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>This is the time the file was last modified.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="atime" type="dfxml:time" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>This is the time the file was last accesed.
+			  	    </xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="crtime" type="dfxml:time" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>This is the time the file was created.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="filename" type="xs:string" minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>The name of the file. </xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="libmagic" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>This is the result of running libmagic to identify the file type.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="seq" type="xs:nonNegativeInteger" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>This is the NTFS Sequence Number.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="dfxml:byte_runs" minOccurs="0" maxOccurs="unbounded"/>
+								<xs:element ref="dfxml:hashdigest" minOccurs="1" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Represents a cryptographic hash.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="byte_runs">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="dfxml:byte_run" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="byte_run">
+		<xs:annotation>
+			<xs:documentation>A specific location of bytes on a mass storage device.  These can be grouped in
+	      a byte_runs array. </xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:annotation>
+				<xs:documentation>Represents a cryptographic hash.</xs:documentation>
+			</xs:annotation>
+			<xs:sequence>
+				<xs:element name="filename" type="xs:string" minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>The name of the file. </xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="dfxml:hashdigest" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="offset" type="xs:nonNegativeInteger"/>
+			<xs:attribute name="fs_offset" type="xs:nonNegativeInteger"/>
+			<xs:attribute name="img_offset" type="xs:nonNegativeInteger"/>
+			<xs:attribute name="len" type="xs:nonNegativeInteger"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="hashdigest">
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:string">
+					<xs:attribute name="type" type="dfxml:hashDigestType"/>
+					<xs:attribute name="base" type="xs:nonNegativeInteger"/>
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="hashDigestType">
+		<xs:annotation>
+			<xs:documentation>This is the hash algorithm that applies to this object.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="SHA1"/>
+			<xs:enumeration value="SHA256"/>
+			<xs:enumeration value="MD5"/>
+			<xs:enumeration value="MD6"/>
+			<xs:enumeration value="other"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="volume">
+		<xs:annotation>
+			<xs:documentation>A mass storage system volume, which is defined as a collection of byte blocks
+	       that are all the same size.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="dfxml:byte_runs" minOccurs="0"/>
+				<xs:element name="ftype" type="xs:positiveInteger"/>
+				<xs:element name="ftype-str" type="xs:string"/>
+				<xs:element name="block_size" type="xs:positiveInteger"/>
+				<xs:element name="block_count" type="xs:positiveInteger"/>
+				<xs:element name="first_block" type="xs:positiveInteger"/>
+				<xs:element name="last_block" type="xs:positiveInteger"/>
+				<xs:element ref="dfxml:fileObject"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+	<!--   This may not be be necessary.                                                                                     -->
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+	<xs:element name="hashset">
+		<xs:annotation>
+			<xs:documentation>main element - image name</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="dfxml:file"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="file">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="filename" type="xs:string"/>
+				<xs:element name="filetype" type="xs:string"/>
+				<xs:element ref="dfxml:filehash"/>
+				<xs:element ref="dfxml:fileattribution"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="filehash">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="dfxml:hashelement" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="hashelement">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="hashalgorithm" type="dfxml:hashAlgorithm"/>
+				<xs:element ref="dfxml:hashvalue"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="hashvalue" type="xs:string"/>
+	<xs:element name="fileattribution" type="xs:string"/>
+	<xs:simpleType name="hashAlgorithm">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="SHA1"/>
+			<xs:enumeration value="SHA256"/>
+			<xs:enumeration value="MD5"/>
+			<xs:enumeration value="MD6"/>
+			<xs:enumeration value="other"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>
