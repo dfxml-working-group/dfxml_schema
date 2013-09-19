@@ -8,7 +8,7 @@
 
   <xs:annotation>
     <xs:documentation>
-      This is the schema for Digital Forensics XML, version 1.1.0rfc1.
+      This is the schema for Digital Forensics XML, version 1.1.0rfc2.
 
       To report issues, questions, or feature requests, please either:
       * File a Github issue at this repository, seeing first if it is already filed: https://github.com/dfxml-working-group/dfxml_schema
