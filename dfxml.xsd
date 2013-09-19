@@ -232,6 +232,7 @@
   <!--The fileobject type is separated from the element definition so external schemas can reference it.-->
   <xs:complexType name="fileobject_type">
     <xs:sequence>
+      <xs:any namespace="##other" processContents="lax" minOccurs="0"/>
       <xs:element ref="dfxml:parent_object" minOccurs="0" maxOccurs="1"/>
       <xs:element ref="dfxml:filename" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element ref="dfxml:partition" minOccurs="0" maxOccurs="1"/>
@@ -261,13 +262,22 @@
       <xs:element ref="dfxml:libmagic" minOccurs="0" maxOccurs="1"/>
       <xs:element ref="dfxml:byte_runs" minOccurs="0"/>
       <xs:element ref="dfxml:hashdigest" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:any namespace="##other" processContents="lax" minOccurs="0"/>
     </xs:sequence>
+    <xs:anyAttribute namespace="##other" processContents="lax"/>
   </xs:complexType>
 
-  <xs:element name="filesize" type="xs:integer">
+  <xs:element name="filesize">
     <xs:annotation>
       <xs:documentation>The size of the file in bytes, as reported by the file system.</xs:documentation>
     </xs:annotation>
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:integer">
+          <xs:anyAttribute namespace="##other" processContents="lax"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
   </xs:element>
 
   <xs:element name="first_block" type="xs:nonNegativeInteger">
@@ -303,6 +313,7 @@
         <xs:extension base="xs:string">
           <xs:attribute name="type" type="dfxml:hashDigestType"/>
           <xs:attribute name="base" type="xs:nonNegativeInteger"/>
+          <xs:anyAttribute namespace="##other" processContents="lax"/>
         </xs:extension>
       </xs:simpleContent>
     </xs:complexType>
@@ -574,6 +585,7 @@
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
+        <xs:any namespace="##other" processContents="lax" minOccurs="0"/>
         <xs:element ref="dfxml:byte_runs" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element ref="dfxml:partition_offset" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:sector_size" minOccurs="0" maxOccurs="1"/>
@@ -585,8 +597,10 @@
         <xs:element ref="dfxml:last_block" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:allocated_only" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:fileobject" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:any namespace="##other" processContents="lax" minOccurs="0"/>
       </xs:sequence>
       <xs:attribute name="offset" type="xs:nonNegativeInteger"/>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
     </xs:complexType>
   </xs:element>
 
@@ -613,6 +627,7 @@
             <xs:documentation>The precision of this timestamp, in seconds.</xs:documentation>
           </xs:annotation>
         </xs:attribute>
+        <xs:anyAttribute namespace="##other" processContents="lax"/>
       </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
