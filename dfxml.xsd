@@ -231,7 +231,7 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element ref="dfxml:parent_object" minOccurs="0" maxOccurs="1"/>
-        <xs:element ref="dfxml:filename" minOccurs="1" maxOccurs="unbounded"/>
+        <xs:element ref="dfxml:filename" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element ref="dfxml:partition" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:id" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:name_type" maxOccurs="1"/>
