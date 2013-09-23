@@ -46,6 +46,7 @@
         <xs:element ref="dfxml:source" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:volume" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element ref="dfxml:fileobject" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="dfxml:rusage" minOccurs="0" maxOccurs="1"/>
         <xs:any namespace="##other" processContents="lax" minOccurs="0"/>
       </xs:sequence>
       <xs:attribute name="catalogDesignDate" type="xs:date" />
@@ -194,6 +195,12 @@
     </xs:annotation>
   </xs:element>
 
+  <xs:element name="error" type="xs:string">
+    <xs:annotation>
+      <xs:documentation>A string describing an error encountered processing a file.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
   <xs:element name="execution_environment">
     <xs:annotation>
       <xs:documentation>A description of the execution environment when the XML file was generated.</xs:documentation>
@@ -237,6 +244,7 @@
       <xs:any namespace="##other" processContents="lax" minOccurs="0"/>
       <xs:element ref="dfxml:parent_object" minOccurs="0" maxOccurs="1"/>
       <xs:element ref="dfxml:filename" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="dfxml:error" minOccurs="0" maxOccurs="1"/>
       <xs:element ref="dfxml:partition" minOccurs="0" maxOccurs="1"/>
       <xs:element ref="dfxml:id" minOccurs="0" maxOccurs="1"/>
       <xs:element ref="dfxml:name_type" minOccurs="0" maxOccurs="1"/>
@@ -516,6 +524,26 @@
     <xs:annotation>
       <xs:documentation>The name of the XML-generating program.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+
+  <!--This element breaks the "No inline element definitions" style rule, because of the specificity of all the children to the getrusage function.-->
+  <xs:element name="rusage">
+    <xs:annotation>
+      <xs:documentation>This element encodes a 'rusage' C structure, as provided by the 'getrusage' function after the file walk is complete.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="utime" type="xs:float"/>
+        <xs:element name="stime" type="xs:float"/>
+        <xs:element name="maxrss" type="xs:integer"/>
+        <xs:element name="minflt" type="xs:integer"/>
+        <xs:element name="majflt" type="xs:integer"/>
+        <xs:element name="nswap" type="xs:integer"/>
+        <xs:element name="inblock" type="xs:integer"/>
+        <xs:element name="oublock" type="xs:integer"/>
+        <xs:element name="clocktime" type="xs:float"/>
+      </xs:sequence>
+    </xs:complexType>
   </xs:element>
 
   <xs:element name="sector_size" type="xs:positiveInteger">
