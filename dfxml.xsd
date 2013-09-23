@@ -43,7 +43,7 @@
         <xs:any namespace="##other" processContents="lax" minOccurs="0"/>
         <xs:element ref="dfxml:metadata" minOccurs="1" maxOccurs="1"/>
         <xs:element ref="dfxml:creator" minOccurs="0" maxOccurs="1"/>
-        <xs:element ref="dfxml:source" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="dfxml:source" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:volume" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element ref="dfxml:fileobject" minOccurs="0" maxOccurs="unbounded"/>
         <xs:any namespace="##other" processContents="lax" minOccurs="0"/>
