@@ -40,14 +40,14 @@
   <xs:element name="dfxml">
     <xs:complexType>
       <xs:sequence>
-        <xs:any namespace="##other" processContents="lax" minOccurs="0"/>
+        <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element ref="dfxml:metadata" minOccurs="1" maxOccurs="1"/>
         <xs:element ref="dfxml:creator" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:source" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:volume" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element ref="dfxml:fileobject" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element ref="dfxml:rusage" minOccurs="0" maxOccurs="1"/>
-        <xs:any namespace="##other" processContents="lax" minOccurs="0"/>
+        <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
       </xs:sequence>
       <xs:attribute name="catalogDesignDate" type="xs:date" />
       <xs:attribute name="version" type="xs:string" use="required">
@@ -165,8 +165,8 @@
       <xs:sequence>
         <xs:element ref="dfxml:program" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:version" minOccurs="0" maxOccurs="1"/>
-        <xs:element ref="dfxml:build_environment" minOccurs="0"/>
-        <xs:element ref="dfxml:execution_environment" minOccurs="0"/>
+        <xs:element ref="dfxml:build_environment" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="dfxml:execution_environment" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:library" minOccurs="0" maxOccurs="unbounded"/>
       </xs:sequence>
       <xs:attribute name="version" type="xs:string">
@@ -241,7 +241,7 @@
   <!--The fileobject type is separated from the element definition so external schemas can reference it.-->
   <xs:complexType name="fileobject_type">
     <xs:sequence>
-      <xs:any namespace="##other" processContents="lax" minOccurs="0"/>
+      <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element ref="dfxml:parent_object" minOccurs="0" maxOccurs="1"/>
       <xs:element ref="dfxml:filename" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element ref="dfxml:error" minOccurs="0" maxOccurs="1"/>
@@ -272,7 +272,7 @@
       <xs:element ref="dfxml:libmagic" minOccurs="0" maxOccurs="1"/>
       <xs:element ref="dfxml:byte_runs" minOccurs="0"/>
       <xs:element ref="dfxml:hashdigest" minOccurs="0" maxOccurs="unbounded"/>
-      <xs:any namespace="##other" processContents="lax" minOccurs="0"/>
+      <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
     <xs:anyAttribute namespace="##other" processContents="lax"/>
   </xs:complexType>
@@ -615,7 +615,7 @@
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
-        <xs:any namespace="##other" processContents="lax" minOccurs="0"/>
+        <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element ref="dfxml:byte_runs" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element ref="dfxml:partition_offset" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:sector_size" minOccurs="0" maxOccurs="1"/>
@@ -627,7 +627,7 @@
         <xs:element ref="dfxml:last_block" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:allocated_only" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:fileobject" minOccurs="0" maxOccurs="unbounded"/>
-        <xs:any namespace="##other" processContents="lax" minOccurs="0"/>
+        <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
       </xs:sequence>
       <xs:attribute name="offset" type="xs:nonNegativeInteger"/>
       <xs:anyAttribute namespace="##other" processContents="lax"/>
