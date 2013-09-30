@@ -44,6 +44,7 @@
         <xs:element ref="dfxml:metadata" minOccurs="1" maxOccurs="1"/>
         <xs:element ref="dfxml:creator" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:source" minOccurs="0" maxOccurs="1"/>
+        <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element ref="dfxml:volume" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element ref="dfxml:fileobject" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element ref="dfxml:rusage" minOccurs="0" maxOccurs="1"/>
@@ -269,6 +270,7 @@
       <xs:element ref="dfxml:bkup_time" minOccurs="0" maxOccurs="1"/>
       <xs:element ref="dfxml:link_target" minOccurs="0" maxOccurs="1"/>
       <xs:element ref="dfxml:libmagic" minOccurs="0" maxOccurs="1"/>
+      <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element ref="dfxml:byte_runs" minOccurs="0"/>
       <xs:element ref="dfxml:hashdigest" minOccurs="0" maxOccurs="unbounded"/>
       <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
@@ -621,6 +623,7 @@
         <xs:element ref="dfxml:first_block" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:last_block" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:allocated_only" minOccurs="0" maxOccurs="1"/>
+        <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element ref="dfxml:fileobject" minOccurs="0" maxOccurs="unbounded"/>
         <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
       </xs:sequence>
