@@ -507,7 +507,7 @@
     </xs:annotation>
   </xs:element>
 
-  <xs:element name="partition_offset" type="dfxml:positiveInteger">
+  <xs:element name="partition_offset" type="dfxml:nonNegativeInteger">
     <xs:annotation>
       <xs:documentation>The offset of the partition from the beginning of the image file, in bytes.</xs:documentation>
     </xs:annotation>
