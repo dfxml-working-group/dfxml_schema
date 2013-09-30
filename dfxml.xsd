@@ -49,12 +49,13 @@
         <xs:element ref="dfxml:rusage" minOccurs="0" maxOccurs="1"/>
         <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
       </xs:sequence>
-      <xs:attribute name="catalogDesignDate" type="xs:date" />
+      <xs:attribute name="catalogDesignDate" type="xs:date"/>
       <xs:attribute name="version" type="xs:string" use="required">
         <xs:annotation>
           <xs:documentation>The version of the DFXML schema to which the DFXML file adheres.</xs:documentation>
         </xs:annotation>
       </xs:attribute>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
     </xs:complexType>
   </xs:element>
 
@@ -72,7 +73,7 @@
     </xs:annotation>
   </xs:element>
 
-  <xs:element name="arch" type="xs:string"/>
+  <xs:element name="arch" type="dfxml:string"/>
 
   <xs:element name="atime" type="dfxml:dftime">
     <xs:annotation>
@@ -86,13 +87,13 @@
     </xs:annotation>
   </xs:element>
 
-  <xs:element name="block_size" type="xs:positiveInteger">
+  <xs:element name="block_size" type="dfxml:positiveInteger">
     <xs:annotation>
       <xs:documentation>The size of the partition's block unit, in bytes.  Note that a block is not necessarily a disk sector; FAT and NTFS both use clusters as their blocks.</xs:documentation>
     </xs:annotation>
   </xs:element>
 
-  <xs:element name="block_count" type="xs:positiveInteger"/>
+  <xs:element name="block_count" type="dfxml:positiveInteger"/>
 
   <xs:element name="build_environment">
     <xs:annotation>
@@ -104,6 +105,7 @@
         <xs:element ref="dfxml:compilation_date" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:library" minOccurs="0" maxOccurs="unbounded"/>
       </xs:sequence>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
     </xs:complexType>
   </xs:element>
 
@@ -126,6 +128,7 @@
           <xs:documentation>This attribute is used to denote whether the file's contents are resident in the file metadata structure.  The SleuthKit uses this to denote residency in the NTFS MFT entry, using the corresponding flags "TSK_FS_ATTR_RES" to denote a resident file, and "TSK_FS_BLOCK_FLAG_RES" for the data block.</xs:documentation>
         </xs:annotation>
       </xs:attribute>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
     </xs:complexType>
   </xs:element>
 
@@ -134,22 +137,23 @@
       <xs:sequence>
         <xs:element ref="dfxml:byte_run" minOccurs="0" maxOccurs="unbounded"/>
       </xs:sequence>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
     </xs:complexType>
   </xs:element>
 
-  <xs:element name="command_line" type="xs:string">
+  <xs:element name="command_line" type="dfxml:string">
     <xs:annotation>
       <xs:documentation>The command line used to invoke the program.</xs:documentation>
     </xs:annotation>
   </xs:element>
 
-  <xs:element name="compilation_date" type="xs:dateTime">
+  <xs:element name="compilation_date" type="dfxml:dateTime">
     <xs:annotation>
       <xs:documentation>The date the program was compiled.</xs:documentation>
     </xs:annotation>
   </xs:element>
 
-  <xs:element name="compiler" type="xs:string">
+  <xs:element name="compiler" type="dfxml:string">
     <xs:annotation>
       <xs:documentation>The compiler (if any) used to compile the program.</xs:documentation>
     </xs:annotation>
@@ -174,6 +178,7 @@
           <xs:documentation>(It is unclear why there is another version attribute here.)</xs:documentation>
         </xs:annotation>
       </xs:attribute>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
     </xs:complexType>
   </xs:element>
 
@@ -195,7 +200,7 @@
     </xs:annotation>
   </xs:element>
 
-  <xs:element name="error" type="xs:string">
+  <xs:element name="error" type="dfxml:string">
     <xs:annotation>
       <xs:documentation>A string describing an error encountered processing a file.</xs:documentation>
     </xs:annotation>
@@ -217,20 +222,14 @@
         <xs:element ref="dfxml:username" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:start_time" minOccurs="0" maxOccurs="1"/>
       </xs:all>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
     </xs:complexType>
   </xs:element>
 
-  <xs:element name="filename">
+  <xs:element name="filename" type="dfxml:string">
     <xs:annotation>
       <xs:documentation>The file name, or full known path of the file relative to the volume root.</xs:documentation>
     </xs:annotation>
-    <xs:complexType>
-      <xs:simpleContent>
-        <xs:extension base="xs:string">
-          <xs:attribute ref="xml:lang"/>
-        </xs:extension>
-      </xs:simpleContent>
-    </xs:complexType>
   </xs:element>
 
   <xs:element name="fileobject" type="dfxml:fileobject_type">
@@ -277,38 +276,31 @@
     <xs:anyAttribute namespace="##other" processContents="lax"/>
   </xs:complexType>
 
-  <xs:element name="filesize">
+  <xs:element name="filesize" type="dfxml:integer">
     <xs:annotation>
       <xs:documentation>The size of the file in bytes, as reported by the file system.</xs:documentation>
     </xs:annotation>
-    <xs:complexType>
-      <xs:simpleContent>
-        <xs:extension base="xs:integer">
-          <xs:anyAttribute namespace="##other" processContents="lax"/>
-        </xs:extension>
-      </xs:simpleContent>
-    </xs:complexType>
   </xs:element>
 
-  <xs:element name="first_block" type="xs:nonNegativeInteger">
+  <xs:element name="first_block" type="dfxml:nonNegativeInteger">
     <xs:annotation>
       <xs:documentation>Address of first block of the file system, in bytes.  This appears to be relative to the beginning of the partition; in The SleuthKit's code base, the code "-&gt;first_block" only ever appears on the left-hand side of an assignment statement when "0" is on the right-hand-side.  (That is, this is always 0 in TSK-based results.)</xs:documentation>
     </xs:annotation>
   </xs:element>
 
-  <xs:element name="ftype" type="xs:positiveInteger">
+  <xs:element name="ftype" type="dfxml:positiveInteger">
     <xs:annotation>
       <xs:documentation>A numerical encoding of the file system type.  The SleuthKit uses a custom enumeration of types known to the code base; the Linux kernel source code uses a different enumeration for recognized file systems.</xs:documentation>
     </xs:annotation>
   </xs:element>
 
-  <xs:element name="ftype_str" type="xs:string">
+  <xs:element name="ftype_str" type="dfxml:string">
     <xs:annotation>
       <xs:documentation>A human-readable string label of the file system type.  Can include annotations, such as using automatic detection to determine the precise type (e.g. leaving it up to the program to distinguish FAT12 from FAT16).</xs:documentation>
     </xs:annotation>
   </xs:element>
 
-  <xs:element name="gid" type="xs:nonNegativeInteger">
+  <xs:element name="gid" type="dfxml:nonNegativeInteger">
     <xs:annotation>
       <xs:documentation>User-group identifier of the file.</xs:documentation>
     </xs:annotation>
@@ -320,47 +312,46 @@
     </xs:annotation>
     <xs:complexType>
       <xs:simpleContent>
-        <xs:extension base="xs:string">
+        <xs:extension base="dfxml:string">
           <xs:attribute name="type" type="dfxml:hashDigestType"/>
           <xs:attribute name="base" type="xs:nonNegativeInteger"/>
-          <xs:anyAttribute namespace="##other" processContents="lax"/>
         </xs:extension>
       </xs:simpleContent>
     </xs:complexType>
   </xs:element>
 
-  <xs:element name="host" type="xs:string">
+  <xs:element name="host" type="dfxml:string">
     <xs:annotation>
       <xs:documentation>The name of the host machine in which the program was executed.</xs:documentation>
     </xs:annotation>
   </xs:element>
 
 
-  <xs:element name="id" type="xs:string">
+  <xs:element name="id" type="dfxml:string">
     <xs:annotation>
       <xs:documentation>A unique identifier for the file.  It is distinct to both the input data and the process parameters of the generating tool.  (That is, it is commonly defined by incrementing a global counter in walk-encounter order of each file and directory.)</xs:documentation>
     </xs:annotation>
   </xs:element>
 
-  <xs:element name="image_filename" type="xs:string">
+  <xs:element name="image_filename" type="dfxml:string">
     <xs:annotation>
       <xs:documentation>The path (absolute or relative) to the input file.  Note some utilities operate on device files, some on image files, some on other DFXML files.</xs:documentation>
     </xs:annotation>
   </xs:element>
 
-  <xs:element name="inode" type="xs:nonNegativeInteger">
+  <xs:element name="inode" type="dfxml:nonNegativeInteger">
     <xs:annotation>
       <xs:documentation>The inode number (st_ino from the stat(2) system call).  File systems that do not have an "Inode" may use an alternative, distinct identifier.  In The SleuthKit, FAT "Inode" numbers are calculated from the directory entry's block address; NTFS's "Inode" numbers are the MFT entry address.</xs:documentation>
     </xs:annotation>
   </xs:element>
 
-  <xs:element name="last_block" type="xs:positiveInteger">
+  <xs:element name="last_block" type="dfxml:positiveInteger">
     <xs:annotation>
       <xs:documentation>The address of the last block of the file system, relative to the beginning of the partition, in bytes.  As reported by file system, after to-byte conversion.  Not guaranteed to be in image (for instance, in an incomplete disk image).</xs:documentation>
     </xs:annotation>
   </xs:element>
 
-  <xs:element name="libmagic" type="xs:string">
+  <xs:element name="libmagic" type="dfxml:string">
     <xs:annotation>
       <xs:documentation>The result of running libmagic to identify the file type.</xs:documentation>
     </xs:annotation>
@@ -370,16 +361,17 @@
     <xs:complexType>
       <xs:attribute name="name" type="xs:string"/>
       <xs:attribute name="version" type="xs:string"/>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
     </xs:complexType>
   </xs:element>
 
-  <xs:element name="link_target" type="xs:string">
+  <xs:element name="link_target" type="dfxml:string">
     <xs:annotation>
       <xs:documentation>The file to which a soft link refers.</xs:documentation>
     </xs:annotation>
   </xs:element>
 
-  <xs:element name="meta_type" type="xs:nonNegativeInteger">
+  <xs:element name="meta_type" type="dfxml:nonNegativeInteger">
     <xs:annotation>
       <xs:documentation>A numeric encoding of the general file type - regular, directory, soft link, etc.  Numeric values are particular to The SleuthKit; the name_type element renders the values to short string representations.</xs:documentation>
     </xs:annotation>
@@ -393,7 +385,7 @@
     </xs:complexType>
   </xs:element>
 
-  <xs:element name="mode" type="xs:nonNegativeInteger">
+  <xs:element name="mode" type="dfxml:nonNegativeInteger">
     <xs:annotation>
       <xs:documentation>File opening mode.  This is the inode mode in POSIX file systems, and an encoding of various NTFS file attributes when created by The SleuthKit libraries.</xs:documentation>
     </xs:annotation>
@@ -470,7 +462,7 @@
     </xs:simpleType>
   </xs:element>
 
-  <xs:element name="nlink" type="xs:nonNegativeInteger">
+  <xs:element name="nlink" type="dfxml:nonNegativeInteger">
     <xs:annotation>
       <xs:documentation>The number of hard links to this file's inode.</xs:documentation>
     </xs:annotation>
@@ -482,19 +474,19 @@
     </xs:annotation>
   </xs:element>
 
-  <xs:element name="os_release" type="xs:string">
+  <xs:element name="os_release" type="dfxml:string">
     <xs:annotation>
       <xs:documentation>The operating system release (reported by uname -r).</xs:documentation>
     </xs:annotation>
   </xs:element>
 
-  <xs:element name="os_sysname" type="xs:string">
+  <xs:element name="os_sysname" type="dfxml:string">
     <xs:annotation>
       <xs:documentation>The operating system name (reported by uname -s).</xs:documentation>
     </xs:annotation>
   </xs:element>
 
-  <xs:element name="os_version" type="xs:string">
+  <xs:element name="os_version" type="dfxml:string">
     <xs:annotation>
       <xs:documentation>The operating system version (reported by uname -v).</xs:documentation>
     </xs:annotation>
@@ -505,22 +497,23 @@
       <xs:all>
         <xs:element ref="dfxml:inode"/>
       </xs:all>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
     </xs:complexType>
   </xs:element>
 
-  <xs:element name="partition" type="xs:positiveInteger">
+  <xs:element name="partition" type="dfxml:positiveInteger">
     <xs:annotation>
       <xs:documentation>The partition in which the file resides.  1-based counter of the partition order.</xs:documentation>
     </xs:annotation>
   </xs:element>
 
-  <xs:element name="partition_offset" type="xs:positiveInteger">
+  <xs:element name="partition_offset" type="dfxml:positiveInteger">
     <xs:annotation>
       <xs:documentation>The offset of the partition from the beginning of the image file, in bytes.</xs:documentation>
     </xs:annotation>
   </xs:element>
 
-  <xs:element name="program" type="xs:string">
+  <xs:element name="program" type="dfxml:string">
     <xs:annotation>
       <xs:documentation>The name of the XML-generating program.</xs:documentation>
     </xs:annotation>
@@ -533,26 +526,27 @@
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="utime" type="xs:float" minOccurs="1" maxOccurs="1"/>
-        <xs:element name="stime" type="xs:float" minOccurs="1" maxOccurs="1"/>
-        <xs:element name="maxrss" type="xs:integer" minOccurs="1" maxOccurs="1"/>
-        <xs:element name="minflt" type="xs:integer" minOccurs="1" maxOccurs="1"/>
-        <xs:element name="majflt" type="xs:integer" minOccurs="1" maxOccurs="1"/>
-        <xs:element name="nswap" type="xs:integer" minOccurs="1" maxOccurs="1"/>
-        <xs:element name="inblock" type="xs:integer" minOccurs="1" maxOccurs="1"/>
-        <xs:element name="oublock" type="xs:integer" minOccurs="1" maxOccurs="1"/>
-        <xs:element name="clocktime" type="xs:float" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="utime" type="dfxml:float" minOccurs="1" maxOccurs="1"/>
+        <xs:element name="stime" type="dfxml:float" minOccurs="1" maxOccurs="1"/>
+        <xs:element name="maxrss" type="dfxml:integer" minOccurs="1" maxOccurs="1"/>
+        <xs:element name="minflt" type="dfxml:integer" minOccurs="1" maxOccurs="1"/>
+        <xs:element name="majflt" type="dfxml:integer" minOccurs="1" maxOccurs="1"/>
+        <xs:element name="nswap" type="dfxml:integer" minOccurs="1" maxOccurs="1"/>
+        <xs:element name="inblock" type="dfxml:integer" minOccurs="1" maxOccurs="1"/>
+        <xs:element name="oublock" type="dfxml:integer" minOccurs="1" maxOccurs="1"/>
+        <xs:element name="clocktime" type="dfxml:float" minOccurs="0" maxOccurs="1"/>
       </xs:sequence>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
     </xs:complexType>
   </xs:element>
 
-  <xs:element name="sector_size" type="xs:positiveInteger">
+  <xs:element name="sector_size" type="dfxml:positiveInteger">
     <xs:annotation>
       <xs:documentation>The size of a disk sector in this volume.  Note that this is not necessarily the same unit as the volume will use for its blocks (see block_size element).</xs:documentation>
     </xs:annotation>
   </xs:element>
 
-  <xs:element name="seq" type="xs:nonNegativeInteger">
+  <xs:element name="seq" type="dfxml:nonNegativeInteger">
     <xs:annotation>
       <xs:documentation>The NTFS sequence number.</xs:documentation>
     </xs:annotation>
@@ -563,16 +557,17 @@
       <xs:sequence>
         <xs:element ref="dfxml:image_filename" minOccurs="0" maxOccurs="unbounded"/>
       </xs:sequence>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
     </xs:complexType>
   </xs:element>
 
-  <xs:element name="start_time" type="xs:dateTime">
+  <xs:element name="start_time" type="dfxml:dateTime">
     <xs:annotation>
       <xs:documentation>The date and time that the program was executed.</xs:documentation>
     </xs:annotation>
   </xs:element>
 
-  <xs:element name="uid" type="xs:nonNegativeInteger">
+  <xs:element name="uid" type="dfxml:nonNegativeInteger">
     <xs:annotation>
       <xs:documentation>The numerical user id.</xs:documentation>
     </xs:annotation>
@@ -597,7 +592,7 @@
     </xs:annotation>
   </xs:element>
 
-  <xs:element name="username" type="xs:string">
+  <xs:element name="username" type="dfxml:string">
     <xs:annotation>
       <xs:documentation>The username under which the program was executed.</xs:documentation>
     </xs:annotation>
@@ -679,5 +674,53 @@
       <xs:enumeration value="other"/>
     </xs:restriction>
   </xs:simpleType>
+
+  <xs:complexType name="dateTime">
+    <xs:simpleContent>
+      <xs:extension base="xs:dateTime">
+        <xs:anyAttribute namespace="##other" processContents="lax"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="float">
+    <xs:simpleContent>
+      <xs:extension base="xs:float">
+        <xs:anyAttribute namespace="##other" processContents="lax"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="integer">
+    <xs:simpleContent>
+      <xs:extension base="xs:integer">
+        <xs:anyAttribute namespace="##other" processContents="lax"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="nonNegativeInteger">
+    <xs:simpleContent>
+      <xs:extension base="xs:nonNegativeInteger">
+        <xs:anyAttribute namespace="##other" processContents="lax"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="positiveInteger">
+    <xs:simpleContent>
+      <xs:extension base="xs:positiveInteger">
+        <xs:anyAttribute namespace="##other" processContents="lax"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="string">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:anyAttribute namespace="##other" processContents="lax"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
 
 </xs:schema>
