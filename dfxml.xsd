@@ -12,7 +12,7 @@
 
       To report issues, questions, or feature requests, please either:
       * File a Github issue at this repository, seeing first if it is already filed: https://github.com/dfxml-working-group/dfxml_schema
-      * Email the dfxml@nist.gov mailing list.  If you wish to join the mailing list, the subscription page is at: https://email.nist.gov/mailman/listinfo/dfxml
+      * Email the dfxml@nist.gov mailing list.  If you wish to join the mailing list, send an email to dfxml-subscribe@nist.gov (no subject or message body is necessary), and a moderator will grant access.
     </xs:documentation>
   </xs:annotation>
 
