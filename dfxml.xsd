@@ -13,10 +13,6 @@
       To report issues, questions, or feature requests, please either:
       * File a Github issue at this repository, seeing first if it is already filed: https://github.com/dfxml-working-group/dfxml_schema
       * Email the dfxml@nist.gov mailing list.  If you wish to join the mailing list, the subscription page is at: https://email.nist.gov/mailman/listinfo/dfxml
-
-      Alternative documentation on DFXML elements is available at:
-      * http://www.bitcurator.net/2013/02/06/dfxml-tag-library/
-      * http://wiki.bitcurator.net/index.php?title=Documentation#Guides_and_How-To_Docs (See section "DFXML tag library")
     </xs:documentation>
   </xs:annotation>
 
