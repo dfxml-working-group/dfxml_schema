@@ -385,7 +385,7 @@
 
   <xs:element name="mode" type="dfxml:nonNegativeInteger">
     <xs:annotation>
-      <xs:documentation>File opening mode.  This is the inode mode in POSIX file systems, and an encoding of various NTFS file attributes when created by The SleuthKit libraries.</xs:documentation>
+      <xs:documentation>File opening mode.  This is the inode mode in POSIX file systems, and an encoding of various NTFS file attributes when created by The SleuthKit libraries.  Recorded in base 10.</xs:documentation>
     </xs:annotation>
   </xs:element>
 
