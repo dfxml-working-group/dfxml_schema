@@ -327,7 +327,7 @@
 
   <xs:element name="id" type="dfxml:string">
     <xs:annotation>
-      <xs:documentation>A unique identifier for the file.  It is distinct to both the input data and the process parameters of the generating tool.  (That is, it is commonly defined by incrementing a global counter in walk-encounter order of each file and directory.)</xs:documentation>
+      <xs:documentation>A unique identifier for the file.  It is distinct to both the input data and the process parameters of the generating tool.  (It is commonly defined by incrementing a global counter in walk-encounter order of each file and directory.)  This element is used instead of the XML "id" attribute and the XML Schema "ID" attribute because one might wish to preserve a fileobject's ID when it is transferred into another document (e.g. as an original_fileobject).  Using either of the more elementary ID attributes would disallow preserving an ID if it was suddenly not a unique value.</xs:documentation>
     </xs:annotation>
   </xs:element>
 
