@@ -498,6 +498,9 @@
   </xs:element>
 
   <xs:element name="parent_object">
+    <xs:annotation>
+      <xs:documentation>A container for an element referencing the parent of this fileobject.  The inode child specified here would contain the inode number of the parent directory.  The root directory of a file system should not have a parent fileobject.</xs:documentation>
+    </xs:annotation>
     <xs:complexType>
       <xs:all>
         <xs:element ref="dfxml:inode"/>
