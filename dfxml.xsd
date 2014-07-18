@@ -306,13 +306,17 @@
 
   <xs:element name="hashdigest">
     <xs:annotation>
-      <xs:documentation>A cryptographic hash.</xs:documentation>
+      <xs:documentation>A cryptographic hash, printed in base 16 by default.</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:simpleContent>
         <xs:extension base="dfxml:string">
           <xs:attribute name="type" type="dfxml:hashDigestType"/>
-          <xs:attribute name="base" type="xs:nonNegativeInteger"/>
+          <xs:attribute name="base" type="xs:nonNegativeInteger">
+            <xs:annotation>
+              <xs:documentation>DEPRECATED.  No known users of this element, and little gain seen to its use.  Will be removed in 1.2.0.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
         </xs:extension>
       </xs:simpleContent>
     </xs:complexType>
