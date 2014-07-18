@@ -356,6 +356,9 @@
   </xs:element>
 
   <xs:element name="library">
+    <xs:annotation>
+      <xs:documentation>This element can be a child of the build_environment element, or the creator element.  If this element is a child of build_environment, the element is about the program as it was built.  If it's a child of creator, the library is about the program as it was run.</xs:documentation>
+    </xs:annotation>
     <xs:complexType>
       <xs:attribute name="name" type="xs:string"/>
       <xs:attribute name="version" type="xs:string"/>
