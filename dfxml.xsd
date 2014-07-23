@@ -383,9 +383,14 @@
   </xs:element>
 
   <xs:element name="metadata">
+    <xs:annotation>
+      <xs:documentation>Document metadata not already defined by DFXML structures.  Originally, Dublin Core was the only expected namespace.  Other metadata not best expressed with Dublin Core can be brought in under their own namespaces, but only Dublin Core will be checked for valid structure.</xs:documentation>
+    </xs:annotation>
     <xs:complexType>
       <xs:sequence>
+        <xs:any namespace="##any" minOccurs="0" maxOccurs="unbounded" processContents="lax" />
         <xs:any namespace="http://purl.org/dc/elements/1.1/" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:any namespace="##any" minOccurs="0" maxOccurs="unbounded" processContents="lax" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
