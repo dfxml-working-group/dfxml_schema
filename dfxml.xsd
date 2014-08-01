@@ -172,7 +172,7 @@
       </xs:sequence>
       <xs:attribute name="version" type="xs:string">
         <xs:annotation>
-          <xs:documentation>(It is unclear why there is another version attribute here.)</xs:documentation>
+          <xs:documentation>DEPRECATED.  Will be removed in DFXML v1.2.0.</xs:documentation>
         </xs:annotation>
       </xs:attribute>
       <xs:anyAttribute namespace="##other" processContents="lax"/>
@@ -298,7 +298,7 @@
     </xs:annotation>
   </xs:element>
 
-  <xs:element name="gid" type="dfxml:nonNegativeInteger">
+  <xs:element name="gid" type="dfxml:string">
     <xs:annotation>
       <xs:documentation>User-group identifier of the file.</xs:documentation>
     </xs:annotation>
@@ -306,13 +306,17 @@
 
   <xs:element name="hashdigest">
     <xs:annotation>
-      <xs:documentation>A cryptographic hash.</xs:documentation>
+      <xs:documentation>A cryptographic hash, printed in base 16 by default.</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:simpleContent>
         <xs:extension base="dfxml:string">
           <xs:attribute name="type" type="dfxml:hashDigestType"/>
-          <xs:attribute name="base" type="xs:nonNegativeInteger"/>
+          <xs:attribute name="base" type="xs:nonNegativeInteger">
+            <xs:annotation>
+              <xs:documentation>DEPRECATED.  No known users of this element, and little gain seen to its use.  Will be removed in 1.2.0.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
         </xs:extension>
       </xs:simpleContent>
     </xs:complexType>
@@ -327,7 +331,7 @@
 
   <xs:element name="id" type="dfxml:string">
     <xs:annotation>
-      <xs:documentation>A unique identifier for the file.  It is distinct to both the input data and the process parameters of the generating tool.  (That is, it is commonly defined by incrementing a global counter in walk-encounter order of each file and directory.)</xs:documentation>
+      <xs:documentation>A unique identifier for the file.  It is distinct to both the input data and the process parameters of the generating tool.  (It is commonly defined by incrementing a global counter in walk-encounter order of each file and directory.)  This element is used instead of the XML "id" attribute and the XML Schema "ID" attribute because one might wish to preserve a fileobject's ID when it is transferred into another document (e.g. as an original_fileobject).  Using either of the more elementary ID attributes would disallow preserving an ID if it was suddenly not a unique value.</xs:documentation>
     </xs:annotation>
   </xs:element>
 
@@ -356,6 +360,9 @@
   </xs:element>
 
   <xs:element name="library">
+    <xs:annotation>
+      <xs:documentation>This element can be a child of the build_environment element, or the creator element.  If this element is a child of build_environment, the element is about the program as it was built.  If it's a child of creator, the library is about the program as it was run.</xs:documentation>
+    </xs:annotation>
     <xs:complexType>
       <xs:attribute name="name" type="xs:string"/>
       <xs:attribute name="version" type="xs:string"/>
@@ -376,16 +383,21 @@
   </xs:element>
 
   <xs:element name="metadata">
+    <xs:annotation>
+      <xs:documentation>Document metadata not already defined by DFXML structures.  Originally, Dublin Core was the only expected namespace.  Other metadata not best expressed with Dublin Core can be brought in under their own namespaces, but only Dublin Core will be checked for valid structure.</xs:documentation>
+    </xs:annotation>
     <xs:complexType>
       <xs:sequence>
-        <xs:any namespace="http://purl.org/dc/elements/1.1/" />
+        <xs:any namespace="##any" minOccurs="0" maxOccurs="unbounded" processContents="lax" />
+        <xs:any namespace="http://purl.org/dc/elements/1.1/" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:any namespace="##any" minOccurs="0" maxOccurs="unbounded" processContents="lax" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
 
   <xs:element name="mode" type="dfxml:nonNegativeInteger">
     <xs:annotation>
-      <xs:documentation>File opening mode.  This is the inode mode in POSIX file systems, and an encoding of various NTFS file attributes when created by The SleuthKit libraries.</xs:documentation>
+      <xs:documentation>File opening mode.  This is the inode mode in POSIX file systems, and an encoding of various NTFS file attributes when created by The SleuthKit libraries.  Recorded in base 10.</xs:documentation>
     </xs:annotation>
   </xs:element>
 
@@ -491,6 +503,9 @@
   </xs:element>
 
   <xs:element name="parent_object">
+    <xs:annotation>
+      <xs:documentation>A container for an element referencing the parent of this fileobject.  The inode child specified here would contain the inode number of the parent directory.  The root directory of a file system should not have a parent fileobject.</xs:documentation>
+    </xs:annotation>
     <xs:complexType>
       <xs:all>
         <xs:element ref="dfxml:inode"/>
@@ -565,9 +580,9 @@
     </xs:annotation>
   </xs:element>
 
-  <xs:element name="uid" type="dfxml:nonNegativeInteger">
+  <xs:element name="uid" type="dfxml:string">
     <xs:annotation>
-      <xs:documentation>The numerical user id.</xs:documentation>
+      <xs:documentation>The user id that owns a file.  Numeric in POSIX file systems, but a string for SIDs in NTFS.  For SID reference, see: http://www.ntfs.com/ntfs-permissions-security-identifier.htm.</xs:documentation>
     </xs:annotation>
   </xs:element>
 
@@ -621,6 +636,7 @@
         <xs:element ref="dfxml:allocated_only" minOccurs="0" maxOccurs="1"/>
         <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element ref="dfxml:fileobject" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="dfxml:error" minOccurs="0" maxOccurs="1"/>
         <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
       </xs:sequence>
       <xs:attribute name="offset" type="xs:nonNegativeInteger"/>
