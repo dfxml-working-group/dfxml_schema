@@ -1,4 +1,4 @@
-This is the schema for Digital Forensics XML, version 1.1.0.
+This is the schema for Digital Forensics XML, version 1.1.1.
 
 To report issues, questions, or feature requests, please either:
 * File a Github issue, seeing first if it is already filed, [here](https://github.com/dfxml-working-group/dfxml_schema).
