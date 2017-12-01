@@ -712,12 +712,18 @@ We would appreciate acknowledgement if the software is used.
     </xs:annotation>
     <xs:restriction base="xs:string">
       <xs:enumeration value="SHA1"/>
+      <xs:enumeration value="SHA224"/>
       <xs:enumeration value="SHA256"/>
+      <xs:enumeration value="SHA384"/>
+      <xs:enumeration value="SHA512"/>
       <xs:enumeration value="MD5"/>
       <xs:enumeration value="MD6"/>
       <xs:enumeration value="OTHER"/>
       <xs:enumeration value="sha1"/>
+      <xs:enumeration value="sha224"/>
       <xs:enumeration value="sha256"/>
+      <xs:enumeration value="sha384"/>
+      <xs:enumeration value="sha512"/>
       <xs:enumeration value="md5"/>
       <xs:enumeration value="md6"/>
       <xs:enumeration value="other"/>
