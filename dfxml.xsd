@@ -492,6 +492,11 @@ We would appreciate acknowledgement if the software is used.
             <xs:documentation>Whiteout (OpenBSD)</xs:documentation>
           </xs:annotation>
         </xs:enumeration>
+        <xs:enumeration value="V">
+          <xs:annotation>
+            <xs:documentation>Special (Used in The SleuthKit for added "Virtual" directories, e.g. $OrphanFiles)</xs:documentation>
+          </xs:annotation>
+        </xs:enumeration>
         <xs:enumeration value="v">
           <xs:annotation>
             <xs:documentation>Special (Used in The SleuthKit for added "Virtual" files, e.g. $FAT1)</xs:documentation>
