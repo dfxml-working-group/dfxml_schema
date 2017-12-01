@@ -75,7 +75,19 @@ We would appreciate acknowledgement if the software is used.
 
   <xs:element name="alloc" type="dfxml:bool01">
     <xs:annotation>
-      <xs:documentation>"1" implies the file was found in an allocated state. Unallocated discovery can be shown with a "0" here, or using the unalloc element.</xs:documentation>
+      <xs:documentation>Allocation status of the file object.  "1" implies an allocated file, according to the metadata recorded in the file's inode and reference directory entry.  To support reporting deleted file content, alloc_inode and alloc_name together should be used instead of alloc, unless the subject file system has no distinction between inodes and directory entries (such as in FAT).</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+  <xs:element name="alloc_inode" type="dfxml:bool01">
+    <xs:annotation>
+      <xs:documentation>Allocation status of the file object's inode metadata structure.  "1" implies allocated, "0" unallocated, and recall that null is an option and will be encountered in the case of, say, a directory entry that points to a completely removed inode.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+  <xs:element name="alloc_name" type="dfxml:bool01">
+    <xs:annotation>
+      <xs:documentation>Allocation status of the file object's name metadata structure (the directory entry).  "1" implies allocated, "0" unallocated, and recall that null is an option and will be encountered in the case of, say, an inode found independently of directory walks.</xs:documentation>
     </xs:annotation>
   </xs:element>
 
@@ -262,6 +274,8 @@ We would appreciate acknowledgement if the software is used.
       <xs:element ref="dfxml:filesize" minOccurs="0" maxOccurs="1"/>
       <xs:element ref="dfxml:unalloc" minOccurs="0" maxOccurs="1"/>
       <xs:element ref="dfxml:alloc" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="dfxml:alloc_inode" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="dfxml:alloc_name" minOccurs="0" maxOccurs="1"/>
       <xs:element ref="dfxml:used" minOccurs="0" maxOccurs="1"/>
       <xs:element ref="dfxml:unused" minOccurs="0" maxOccurs="1"/>
       <xs:element ref="dfxml:orphan" minOccurs="0" maxOccurs="1"/>
@@ -603,7 +617,7 @@ We would appreciate acknowledgement if the software is used.
 
   <xs:element name="unalloc" type="dfxml:bool01">
     <xs:annotation>
-      <xs:documentation>"1" implies the file was found marked unallocated.</xs:documentation>
+      <xs:documentation>DEPRECATED.  See alloc.</xs:documentation>
     </xs:annotation>
   </xs:element>
 
