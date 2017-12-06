@@ -56,6 +56,9 @@ We would appreciate acknowledgement if the software is used.
         <xs:element ref="dfxml:creator" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:source" minOccurs="0" maxOccurs="1"/>
         <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="dfxml:diskimageobject" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="dfxml:partitionsystemobject" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="dfxml:partitionobject" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element ref="dfxml:volume" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element ref="dfxml:fileobject" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element ref="dfxml:rusage" minOccurs="0" maxOccurs="1"/>
@@ -216,6 +219,23 @@ We would appreciate acknowledgement if the software is used.
     <xs:annotation>
       <xs:documentation>The time the file metadata were last modified.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+
+  <xs:element name="diskimageobject">
+    <xs:annotation>
+      <xs:documentation>A disk image.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="dfxml:byte_runs" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="dfxml:sector_size" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="dfxml:partitionsystemobject" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="dfxml:volume" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="dfxml:fileobject" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
+    </xs:complexType>
   </xs:element>
 
   <xs:element name="dtime" type="dfxml:dftime">
@@ -560,9 +580,61 @@ We would appreciate acknowledgement if the software is used.
     </xs:annotation>
   </xs:element>
 
+  <xs:element name="partitionobject">
+    <xs:annotation>
+      <xs:documentation>A disk partition.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="dfxml:byte_runs" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="dfxml:ptype" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="dfxml:ptype_str" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="dfxml:partitionsystemobject" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="dfxml:volume" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="dfxml:fileobject" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="partitionsystemobject">
+    <xs:annotation>
+      <xs:documentation>A partition system.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="dfxml:byte_runs" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="dfxml:pstype_str" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="dfxml:partitionobject" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="dfxml:fileobject" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
+    </xs:complexType>
+  </xs:element>
+
   <xs:element name="program" type="dfxml:string">
     <xs:annotation>
       <xs:documentation>The name of the XML-generating program.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+  <xs:element name="pstype_str" type="dfxml:string">
+    <xs:annotation>
+      <xs:documentation>A human-readable string label of the partition system type.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+  <xs:element name="ptype" type="dfxml:nonNegativeInteger">
+    <xs:annotation>
+      <xs:documentation>The numerical encoding of the partition's type, as recorded in the containing partition table.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+  <xs:element name="ptype_str" type="dfxml:string">
+    <xs:annotation>
+      <xs:documentation>A human-readable string label of the partition type.</xs:documentation>
     </xs:annotation>
   </xs:element>
 
@@ -669,6 +741,8 @@ We would appreciate acknowledgement if the software is used.
         <xs:element ref="dfxml:last_block" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:allocated_only" minOccurs="0" maxOccurs="1"/>
         <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="dfxml:diskimageobject" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="dfxml:volume" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:fileobject" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element ref="dfxml:error" minOccurs="0" maxOccurs="1"/>
         <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
