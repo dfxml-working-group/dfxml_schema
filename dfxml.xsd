@@ -117,7 +117,7 @@ We would appreciate acknowledgement if the software is used.
     </xs:annotation>
   </xs:element>
 
-  <xs:element name="block_count" type="dfxml:positiveInteger"/>
+  <xs:element name="block_count" type="dfxml:nonNegativeInteger"/>
 
   <xs:element name="build_environment">
     <xs:annotation>
