@@ -199,7 +199,7 @@ We would appreciate acknowledgement if the software is used.
       </xs:sequence>
       <xs:attribute name="version" type="xs:string">
         <xs:annotation>
-          <xs:documentation>DEPRECATED.  Will be removed in DFXML v1.2.0.</xs:documentation>
+          <xs:documentation>DEPRECATED.  Will be removed in DFXML v2.0.0.</xs:documentation>
         </xs:annotation>
       </xs:attribute>
       <xs:anyAttribute namespace="##other" processContents="lax"/>
@@ -343,7 +343,7 @@ We would appreciate acknowledgement if the software is used.
           <xs:attribute name="type" type="dfxml:hashDigestType"/>
           <xs:attribute name="base" type="xs:nonNegativeInteger">
             <xs:annotation>
-              <xs:documentation>DEPRECATED.  No known users of this element, and little gain seen to its use.  Will be removed in 1.2.0.</xs:documentation>
+              <xs:documentation>DEPRECATED.  No known users of this element, and little gain seen to its use.  Will be removed in 2.0.0.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
         </xs:extension>
