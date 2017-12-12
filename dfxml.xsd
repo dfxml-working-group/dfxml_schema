@@ -6,6 +6,19 @@
   targetNamespace="http://www.forensicswiki.org/wiki/Category:Digital_Forensics_XML"
   elementFormDefault="qualified">
 
+<!--
+This software was developed at the National Institute of Standards
+and Technology by employees of the Federal Government in the course
+of their official duties. Pursuant to title 17 Section 105 of the
+United States Code this software is not subject to copyright
+protection and is in the public domain. NIST assumes no
+responsibility whatsoever for its use by other parties, and makes
+no guarantees, expressed or implied, about its quality,
+reliability, or any other characteristic.
+
+We would appreciate acknowledgement if the software is used.
+-->
+
   <xs:annotation>
     <xs:documentation>
       This is the schema file for Digital Forensics XML, version 1.1.1.
@@ -43,6 +56,9 @@
         <xs:element ref="dfxml:creator" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:source" minOccurs="0" maxOccurs="1"/>
         <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="dfxml:diskimageobject" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="dfxml:partitionsystemobject" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="dfxml:partitionobject" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element ref="dfxml:volume" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element ref="dfxml:fileobject" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element ref="dfxml:rusage" minOccurs="0" maxOccurs="1"/>
@@ -62,7 +78,19 @@
 
   <xs:element name="alloc" type="dfxml:bool01">
     <xs:annotation>
-      <xs:documentation>"1" implies the file was found in an allocated state. Unallocated discovery can be shown with a "0" here, or using the unalloc element.</xs:documentation>
+      <xs:documentation>Allocation status of the file object.  "1" implies an allocated file, according to the metadata recorded in the file's inode and reference directory entry.  To support reporting deleted file content, alloc_inode and alloc_name together should be used instead of alloc, unless the subject file system has no distinction between inodes and directory entries (such as in FAT).</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+  <xs:element name="alloc_inode" type="dfxml:bool01">
+    <xs:annotation>
+      <xs:documentation>Allocation status of the file object's inode metadata structure.  "1" implies allocated, "0" unallocated, and recall that null is an option and will be encountered in the case of, say, a directory entry that points to a completely removed inode.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+  <xs:element name="alloc_name" type="dfxml:bool01">
+    <xs:annotation>
+      <xs:documentation>Allocation status of the file object's name metadata structure (the directory entry).  "1" implies allocated, "0" unallocated, and recall that null is an option and will be encountered in the case of, say, an inode found independently of directory walks.</xs:documentation>
     </xs:annotation>
   </xs:element>
 
@@ -92,7 +120,7 @@
     </xs:annotation>
   </xs:element>
 
-  <xs:element name="block_count" type="dfxml:positiveInteger"/>
+  <xs:element name="block_count" type="dfxml:nonNegativeInteger"/>
 
   <xs:element name="build_environment">
     <xs:annotation>
@@ -174,7 +202,7 @@
       </xs:sequence>
       <xs:attribute name="version" type="xs:string">
         <xs:annotation>
-          <xs:documentation>DEPRECATED.  Will be removed in DFXML v1.2.0.</xs:documentation>
+          <xs:documentation>DEPRECATED.  Will be removed in DFXML v2.0.0.</xs:documentation>
         </xs:annotation>
       </xs:attribute>
       <xs:anyAttribute namespace="##other" processContents="lax"/>
@@ -191,6 +219,23 @@
     <xs:annotation>
       <xs:documentation>The time the file metadata were last modified.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+
+  <xs:element name="diskimageobject">
+    <xs:annotation>
+      <xs:documentation>A disk image.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="dfxml:byte_runs" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="dfxml:sector_size" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="dfxml:partitionsystemobject" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="dfxml:volume" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="dfxml:fileobject" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
+    </xs:complexType>
   </xs:element>
 
   <xs:element name="dtime" type="dfxml:dftime">
@@ -249,6 +294,8 @@
       <xs:element ref="dfxml:filesize" minOccurs="0" maxOccurs="1"/>
       <xs:element ref="dfxml:unalloc" minOccurs="0" maxOccurs="1"/>
       <xs:element ref="dfxml:alloc" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="dfxml:alloc_inode" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="dfxml:alloc_name" minOccurs="0" maxOccurs="1"/>
       <xs:element ref="dfxml:used" minOccurs="0" maxOccurs="1"/>
       <xs:element ref="dfxml:unused" minOccurs="0" maxOccurs="1"/>
       <xs:element ref="dfxml:orphan" minOccurs="0" maxOccurs="1"/>
@@ -316,7 +363,7 @@
           <xs:attribute name="type" type="dfxml:hashDigestType"/>
           <xs:attribute name="base" type="xs:nonNegativeInteger">
             <xs:annotation>
-              <xs:documentation>DEPRECATED.  No known users of this element, and little gain seen to its use.  Will be removed in 1.2.0.</xs:documentation>
+              <xs:documentation>DEPRECATED.  No known users of this element, and little gain seen to its use.  Will be removed in 2.0.0.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
         </xs:extension>
@@ -465,6 +512,11 @@
             <xs:documentation>Whiteout (OpenBSD)</xs:documentation>
           </xs:annotation>
         </xs:enumeration>
+        <xs:enumeration value="V">
+          <xs:annotation>
+            <xs:documentation>Special (Used in The SleuthKit for added "Virtual" directories, e.g. $OrphanFiles)</xs:documentation>
+          </xs:annotation>
+        </xs:enumeration>
         <xs:enumeration value="v">
           <xs:annotation>
             <xs:documentation>Special (Used in The SleuthKit for added "Virtual" files, e.g. $FAT1)</xs:documentation>
@@ -528,9 +580,61 @@
     </xs:annotation>
   </xs:element>
 
+  <xs:element name="partitionobject">
+    <xs:annotation>
+      <xs:documentation>A disk partition.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="dfxml:byte_runs" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="dfxml:ptype" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="dfxml:ptype_str" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="dfxml:partitionsystemobject" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="dfxml:volume" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="dfxml:fileobject" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="partitionsystemobject">
+    <xs:annotation>
+      <xs:documentation>A partition system.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="dfxml:byte_runs" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="dfxml:pstype_str" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="dfxml:partitionobject" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="dfxml:fileobject" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
+    </xs:complexType>
+  </xs:element>
+
   <xs:element name="program" type="dfxml:string">
     <xs:annotation>
       <xs:documentation>The name of the XML-generating program.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+  <xs:element name="pstype_str" type="dfxml:string">
+    <xs:annotation>
+      <xs:documentation>A human-readable string label of the partition system type.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+  <xs:element name="ptype" type="dfxml:nonNegativeInteger">
+    <xs:annotation>
+      <xs:documentation>The numerical encoding of the partition's type, as recorded in the containing partition table.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+  <xs:element name="ptype_str" type="dfxml:string">
+    <xs:annotation>
+      <xs:documentation>A human-readable string label of the partition type.</xs:documentation>
     </xs:annotation>
   </xs:element>
 
@@ -590,7 +694,7 @@
 
   <xs:element name="unalloc" type="dfxml:bool01">
     <xs:annotation>
-      <xs:documentation>"1" implies the file was found marked unallocated.</xs:documentation>
+      <xs:documentation>DEPRECATED.  See alloc.</xs:documentation>
     </xs:annotation>
   </xs:element>
 
@@ -637,6 +741,8 @@
         <xs:element ref="dfxml:last_block" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:allocated_only" minOccurs="0" maxOccurs="1"/>
         <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="dfxml:diskimageobject" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="dfxml:volume" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:fileobject" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element ref="dfxml:error" minOccurs="0" maxOccurs="1"/>
         <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
@@ -680,12 +786,18 @@
     </xs:annotation>
     <xs:restriction base="xs:string">
       <xs:enumeration value="SHA1"/>
+      <xs:enumeration value="SHA224"/>
       <xs:enumeration value="SHA256"/>
+      <xs:enumeration value="SHA384"/>
+      <xs:enumeration value="SHA512"/>
       <xs:enumeration value="MD5"/>
       <xs:enumeration value="MD6"/>
       <xs:enumeration value="OTHER"/>
       <xs:enumeration value="sha1"/>
+      <xs:enumeration value="sha224"/>
       <xs:enumeration value="sha256"/>
+      <xs:enumeration value="sha384"/>
+      <xs:enumeration value="sha512"/>
       <xs:enumeration value="md5"/>
       <xs:enumeration value="md6"/>
       <xs:enumeration value="other"/>
