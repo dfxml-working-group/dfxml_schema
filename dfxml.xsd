@@ -228,7 +228,9 @@ We would appreciate acknowledgement if the software is used.
     <xs:complexType>
       <xs:sequence>
         <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="dfxml:filesize" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:byte_runs" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="dfxml:hashdigest" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element ref="dfxml:sector_size" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:partitionsystemobject" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element ref="dfxml:volume" minOccurs="0" maxOccurs="unbounded"/>
