@@ -609,6 +609,7 @@ We would appreciate acknowledgement if the software is used.
         <xs:element ref="dfxml:pstype_str" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:partitionobject" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element ref="dfxml:fileobject" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="dfxml:error" minOccurs="0" maxOccurs="1"/>
       </xs:sequence>
       <xs:anyAttribute namespace="##other" processContents="lax"/>
     </xs:complexType>
