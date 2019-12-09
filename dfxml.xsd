@@ -582,7 +582,7 @@ We would appreciate acknowledgement if the software is used.
 
   <xs:element name="partitionobject">
     <xs:annotation>
-      <xs:documentation>A disk partition.</xs:documentation>
+      <xs:documentation>A disk partition.  To represent MBR extended partition contents, a partition object can nest within another partition object.</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
@@ -591,6 +591,7 @@ We would appreciate acknowledgement if the software is used.
         <xs:element ref="dfxml:ptype" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:ptype_str" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:partitionsystemobject" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="dfxml:partitionobject" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element ref="dfxml:volume" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element ref="dfxml:fileobject" minOccurs="0" maxOccurs="unbounded"/>
       </xs:sequence>
