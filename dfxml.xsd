@@ -246,7 +246,7 @@ We would appreciate acknowledgement if the software is used.
 
   <xs:element name="error" type="dfxml:string">
     <xs:annotation>
-      <xs:documentation>A string describing an error encountered processing a file.</xs:documentation>
+      <xs:documentation>A string describing an error encountered processing an object.</xs:documentation>
     </xs:annotation>
   </xs:element>
 
