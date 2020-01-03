@@ -575,6 +575,12 @@ We would appreciate acknowledgement if the software is used.
     </xs:annotation>
   </xs:element>
 
+  <xs:element name="partition_index" type="dfxml:string">
+    <xs:annotation>
+      <xs:documentation>The index value for this partition within the containing partition table.  Many partition systems use a numeric value, but some (such as the BSD Disk Label) use a character value.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
   <xs:element name="partition_offset" type="dfxml:nonNegativeInteger">
     <xs:annotation>
       <xs:documentation>The offset of the partition from the beginning of the image file, in bytes.</xs:documentation>
@@ -589,6 +595,7 @@ We would appreciate acknowledgement if the software is used.
       <xs:sequence>
         <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element ref="dfxml:byte_runs" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="dfxml:partition_index" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:ptype" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:ptype_str" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:partitionsystemobject" minOccurs="0" maxOccurs="1"/>
