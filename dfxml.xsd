@@ -235,6 +235,7 @@ We would appreciate acknowledgement if the software is used.
         <xs:element ref="dfxml:partitionsystemobject" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element ref="dfxml:volume" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element ref="dfxml:fileobject" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="dfxml:error" minOccurs="0" maxOccurs="1"/>
       </xs:sequence>
       <xs:anyAttribute namespace="##other" processContents="lax"/>
     </xs:complexType>
@@ -248,7 +249,7 @@ We would appreciate acknowledgement if the software is used.
 
   <xs:element name="error" type="dfxml:string">
     <xs:annotation>
-      <xs:documentation>A string describing an error encountered processing a file.</xs:documentation>
+      <xs:documentation>A string describing an error encountered processing an object.</xs:documentation>
     </xs:annotation>
   </xs:element>
 
@@ -576,6 +577,12 @@ We would appreciate acknowledgement if the software is used.
     </xs:annotation>
   </xs:element>
 
+  <xs:element name="partition_index" type="dfxml:string">
+    <xs:annotation>
+      <xs:documentation>The index value for this partition within the containing partition table.  Many partition systems use a numeric value, but some (such as the BSD Disk Label) use a character value.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
   <xs:element name="partition_offset" type="dfxml:nonNegativeInteger">
     <xs:annotation>
       <xs:documentation>The offset of the partition from the beginning of the image file, in bytes.</xs:documentation>
@@ -584,15 +591,17 @@ We would appreciate acknowledgement if the software is used.
 
   <xs:element name="partitionobject">
     <xs:annotation>
-      <xs:documentation>A disk partition.</xs:documentation>
+      <xs:documentation>A disk partition.  To represent MBR extended partition contents, a partition object can nest within another partition object.</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
         <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element ref="dfxml:byte_runs" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="dfxml:partition_index" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:ptype" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:ptype_str" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:partitionsystemobject" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="dfxml:partitionobject" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element ref="dfxml:volume" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element ref="dfxml:fileobject" minOccurs="0" maxOccurs="unbounded"/>
       </xs:sequence>
@@ -611,6 +620,7 @@ We would appreciate acknowledgement if the software is used.
         <xs:element ref="dfxml:pstype_str" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:partitionobject" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element ref="dfxml:fileobject" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="dfxml:error" minOccurs="0" maxOccurs="1"/>
       </xs:sequence>
       <xs:anyAttribute namespace="##other" processContents="lax"/>
     </xs:complexType>
