@@ -1,4 +1,4 @@
-This is the schema repository for Digital Forensics XML, version 1.2.0.
+This is the schema repository for Digital Forensics XML, version 2.0.0-beta.0.
 
 If you intend to use the dfxml.xsd file as a DFXML document validator, note that you will also need to download two accompanying .xsd files under the "ref" directory.  The easiest way to do this is by downloading the repository as a Git clone, or by downloading the [zip archive](https://github.com/dfxml-working-group/dfxml_schema/archive/master.zip) from the Github page.
 
