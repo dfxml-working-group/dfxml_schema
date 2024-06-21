@@ -21,7 +21,7 @@ We would appreciate acknowledgement if the software is used.
 
   <xs:annotation>
     <xs:documentation>
-      This is the schema file for Digital Forensics XML, version 1.2.0.
+      This is the schema file for Digital Forensics XML, version 2.0.0-beta.0.
 
       If you intend to use this file as a DFXML document validator, note that you will also need to download two accompanying .xsd files under the "ref" directory.  The easiest way to do this is by downloading the repository as a Git clone, or by downloading the zip archive from the Github page.
 
@@ -55,7 +55,6 @@ We would appreciate acknowledgement if the software is used.
         <xs:element ref="dfxml:metadata" minOccurs="1" maxOccurs="1"/>
         <xs:element ref="dfxml:creator" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:source" minOccurs="0" maxOccurs="1"/>
-        <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element ref="dfxml:diskimageobject" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element ref="dfxml:partitionsystemobject" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element ref="dfxml:partitionobject" minOccurs="0" maxOccurs="unbounded"/>
@@ -233,6 +232,7 @@ We would appreciate acknowledgement if the software is used.
         <xs:element ref="dfxml:partitionsystemobject" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element ref="dfxml:volume" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element ref="dfxml:fileobject" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="dfxml:error" minOccurs="0" maxOccurs="1"/>
       </xs:sequence>
       <xs:anyAttribute namespace="##other" processContents="lax"/>
     </xs:complexType>
@@ -246,7 +246,7 @@ We would appreciate acknowledgement if the software is used.
 
   <xs:element name="error" type="dfxml:string">
     <xs:annotation>
-      <xs:documentation>A string describing an error encountered processing a file.</xs:documentation>
+      <xs:documentation>A string describing an error encountered processing an object.</xs:documentation>
     </xs:annotation>
   </xs:element>
 
@@ -284,7 +284,6 @@ We would appreciate acknowledgement if the software is used.
   <!--The fileobject type is separated from the element definition so external schemas can reference it.-->
   <xs:complexType name="fileobject_type">
     <xs:sequence>
-      <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element ref="dfxml:parent_object" minOccurs="0" maxOccurs="1"/>
       <xs:element ref="dfxml:filename" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element ref="dfxml:error" minOccurs="0" maxOccurs="1"/>
@@ -315,7 +314,6 @@ We would appreciate acknowledgement if the software is used.
       <xs:element ref="dfxml:bkup_time" minOccurs="0" maxOccurs="1"/>
       <xs:element ref="dfxml:link_target" minOccurs="0" maxOccurs="1"/>
       <xs:element ref="dfxml:libmagic" minOccurs="0" maxOccurs="1"/>
-      <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element ref="dfxml:byte_runs" minOccurs="0"/>
       <xs:element ref="dfxml:hashdigest" minOccurs="0" maxOccurs="unbounded"/>
       <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
@@ -437,8 +435,6 @@ We would appreciate acknowledgement if the software is used.
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
-        <xs:any namespace="##any" minOccurs="0" maxOccurs="unbounded" processContents="lax" />
-        <xs:any namespace="http://purl.org/dc/elements/1.1/" minOccurs="0" maxOccurs="unbounded"/>
         <xs:any namespace="##any" minOccurs="0" maxOccurs="unbounded" processContents="lax" />
       </xs:sequence>
     </xs:complexType>
@@ -574,6 +570,12 @@ We would appreciate acknowledgement if the software is used.
     </xs:annotation>
   </xs:element>
 
+  <xs:element name="partition_index" type="dfxml:string">
+    <xs:annotation>
+      <xs:documentation>The index value for this partition within the containing partition table.  Many partition systems use a numeric value, but some (such as the BSD Disk Label) use a character value.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
   <xs:element name="partition_offset" type="dfxml:nonNegativeInteger">
     <xs:annotation>
       <xs:documentation>The offset of the partition from the beginning of the image file, in bytes.</xs:documentation>
@@ -582,15 +584,17 @@ We would appreciate acknowledgement if the software is used.
 
   <xs:element name="partitionobject">
     <xs:annotation>
-      <xs:documentation>A disk partition.</xs:documentation>
+      <xs:documentation>A disk partition.  To represent MBR extended partition contents, a partition object can nest within another partition object.</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
         <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element ref="dfxml:byte_runs" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="dfxml:partition_index" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:ptype" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:ptype_str" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:partitionsystemobject" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="dfxml:partitionobject" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element ref="dfxml:volume" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element ref="dfxml:fileobject" minOccurs="0" maxOccurs="unbounded"/>
       </xs:sequence>
@@ -609,6 +613,7 @@ We would appreciate acknowledgement if the software is used.
         <xs:element ref="dfxml:pstype_str" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:partitionobject" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element ref="dfxml:fileobject" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="dfxml:error" minOccurs="0" maxOccurs="1"/>
       </xs:sequence>
       <xs:anyAttribute namespace="##other" processContents="lax"/>
     </xs:complexType>
@@ -729,7 +734,6 @@ We would appreciate acknowledgement if the software is used.
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
-        <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element ref="dfxml:byte_runs" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element ref="dfxml:partition_offset" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:sector_size" minOccurs="0" maxOccurs="1"/>
@@ -740,7 +744,6 @@ We would appreciate acknowledgement if the software is used.
         <xs:element ref="dfxml:first_block" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:last_block" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:allocated_only" minOccurs="0" maxOccurs="1"/>
-        <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element ref="dfxml:diskimageobject" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element ref="dfxml:volume" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:fileobject" minOccurs="0" maxOccurs="unbounded"/>
